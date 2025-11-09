@@ -4,9 +4,9 @@
 <div class="container mt-5 plan-detail-container">
     <!-- Plan Header -->
     <div class="text-center mb-5">
-        <h2 class="fw-bold text-light">{{ plan.title }}</h2>
-        <p class="text-light-50">{{ plan.description }}</p>
-        <h4 class="text-warning">Price: ₹{{ plan.price }}</h4>
+        <h2 class="fw-bold text-dark">{{ plan.title }}</h2>
+        <p class="text-muted">{{ plan.description }}</p>
+        <h4 class="text-primary">Price: ₹{{ plan.price }}</h4>
 
         <div class="mt-4">
             <a href="{{ url_for('plan_detail', plan_name=plan.title.lower()) }}" class="btn btn-success me-2">Join Now</a>
@@ -18,44 +18,44 @@
     <div class="row g-4">
         <!-- Plan Features -->
         <div class="col-md-6">
-            <div class="card bg-dark text-light shadow-lg p-4 h-100">
-                <h4 class="fw-bold mb-3">Plan Details</h4>
-                <ul class="list-group list-group-flush text-light">
-                    <li class="list-group-item bg-dark">Access to state-of-the-art equipment</li>
-                    <li class="list-group-item bg-dark">Personalized workout plan</li>
-                    <li class="list-group-item bg-dark">Group sessions & classes</li>
-                    <li class="list-group-item bg-dark">Nutrition guidance & diet chart</li>
-                    <li class="list-group-item bg-dark">24/7 Gym access (for Gold & Platinum)</li>
+            <div class="card shadow-sm p-4 h-100 bg-white">
+                <h4 class="fw-bold mb-3 text-dark">Plan Details</h4>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Access to state-of-the-art equipment</li>
+                    <li class="list-group-item">Personalized workout plan</li>
+                    <li class="list-group-item">Group sessions & classes</li>
+                    <li class="list-group-item">Nutrition guidance & diet chart</li>
+                    <li class="list-group-item">24/7 Gym access (for Gold & Platinum)</li>
                 </ul>
-                <hr class="border-secondary">
-                <h5 class="fw-bold">Payment Options</h5>
+                <hr>
+                <h5 class="fw-bold text-dark">Payment Options</h5>
                 <ul>
                     <li>UPI / Paytm / Google Pay</li>
                     <li>Credit Card / Debit Card</li>
                     <li>Cash at Gym Reception</li>
                 </ul>
-                <a href="#" class="btn btn-warning mt-3 w-100">Enroll Now</a>
+                <a href="{{ url_for('payment_page', plan_name=plan.title.lower()) }}" class="btn btn-warning mt-3 w-100">Enroll Now</a>
             </div>
         </div>
 
         <!-- Callback Form -->
         <div class="col-md-6">
-            <div class="card bg-dark text-light shadow-lg p-4 h-100">
-                <h4 class="fw-bold mb-3">Request a Callback</h4>
+            <div class="card shadow-sm p-4 h-100 bg-white">
+                <h4 class="fw-bold mb-3 text-dark">Request a Callback</h4>
                 <form method="POST">
                     <div class="mb-3">
-                        <input type="text" name="name" class="form-control bg-secondary text-light border-0" placeholder="Your Name" required>
+                        <input type="text" name="name" class="form-control" placeholder="Your Name" required>
                     </div>
                     <div class="mb-3">
-                        <input type="email" name="email" class="form-control bg-secondary text-light border-0" placeholder="Your Email" required>
+                        <input type="email" name="email" class="form-control" placeholder="Your Email" required>
                     </div>
                     <div class="mb-3">
-                        <input type="text" name="phone" class="form-control bg-secondary text-light border-0" placeholder="Phone Number" required>
+                        <input type="text" name="phone" class="form-control" placeholder="Phone Number" required>
                     </div>
                     <div class="mb-3">
-                        <textarea name="notes" class="form-control bg-secondary text-light border-0" placeholder="Tell us about your fitness goals..." rows="4"></textarea>
+                        <textarea name="notes" class="form-control" placeholder="Tell us about your fitness goals..." rows="4"></textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary w-100 action-btn">Request Callback</button>
+                    <button type="submit" class="btn btn-primary w-100">Request Callback</button>
                 </form>
             </div>
         </div>
@@ -63,8 +63,8 @@
 
     <!-- Contact Info -->
     <div class="text-center mt-5">
-        <h5 class="text-light">Contact Us</h5>
-        <p class="text-light-50">Email: contact@powerzone.com | Phone: +91-9876543210 | Address: 123 Fitness St, Your City</p>
+        <h5 class="text-dark">Contact Us</h5>
+        <p class="text-muted">Email: contact@powerzone.com | Phone: +91-9876543210 | Address: 123 Fitness St, Your City</p>
     </div>
 </div>
 

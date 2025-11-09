@@ -1,3 +1,4 @@
+
 import pymysql
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from flask import g
@@ -324,6 +325,17 @@ def plan_detail(plan_name):
     return render_template("plan_detail.html", plan=plan)
 
 
+@app.route('/payment/<plan_name>')
+def payment_page(plan_name):
+    # You can pass plan info here if you want to show plan details
+    plans = {
+        "silver": {"title": "Silver", "price": 499},
+        "gold": {"title": "Gold", "price": 999},
+        "platinum": {"title": "Platinum", "price": 1499},
+    }
+
+    plan = plans.get(plan_name.lower(), {"title": plan_name, "price": "N/A"})
+    return render_template('payment.html', plan=plan)
 
 
 # -----------------

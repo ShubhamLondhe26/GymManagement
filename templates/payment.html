@@ -1,0 +1,226 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container mt-5">
+  <div class="card shadow p-4 mx-auto" style="max-width:700px;">
+    <h2 class="text-center text-dark">Payment for {{ plan.title }} Plan</h2>
+    <p class="text-center text-muted">Amount: ₹{{ plan.price }}</p>
+    <hr>
+
+    <form id="paymentForm" onsubmit="return handlePayNow(event)">
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Full Name</label>
+          <input id="p_name" type="text" class="form-control" required>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Email</label>
+          <input id="p_email" type="email" class="form-control" required>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Payment Method</label>
+        <select id="paymentMethod" class="form-select" required>
+          <option value="">Select Payment Option</option>
+          <option value="upi">UPI / Google Pay</option>
+          <option value="card">Credit / Debit Card</option>
+          <option value="netbanking">Net Banking</option>
+          <option value="cash">Cash at Gym</option>
+        </select>
+      </div>
+
+      <!-- Card field example (shown for card) -->
+      <div id="cardFields" style="display:none;">
+        <div class="mb-3">
+          <label class="form-label">Card Number</label>
+          <input type="text" class="form-control" placeholder="4242 4242 4242 4242">
+        </div>
+        <div class="row">
+          <div class="col">
+            <input type="text" class="form-control" placeholder="MM/YY">
+          </div>
+          <div class="col">
+            <input type="text" class="form-control" placeholder="CVC">
+          </div>
+        </div>
+      </div>
+
+      <button id="payNowBtn" type="submit" class="btn btn-success w-100 mt-3">Pay Now</button>
+    </form>
+
+    <!-- UPI QR Section (hidden until Pay Now clicked when method=upi) -->
+    <div id="qrContainer" class="text-center mt-4" style="display:none;">
+      <h5 class="text-primary mb-3">Scan QR to Pay via UPI</h5>
+
+      <!-- show a fake transaction id and instructions -->
+      <p class="text-muted" id="txnIdText"></p>
+
+      <img id="upiQrImg" src="{{ url_for('static', filename='images/paymentqr.png.jpeg') }}" alt="UPI QR Code"
+           width="220" class="rounded shadow">
+
+      <div class="mt-3">
+        <div id="timerText" class="h5 text-secondary">03:00</div>
+        <div id="expiredText" class="h6 text-danger" style="display:none;">QR expired. Please regenerate.</div>
+      </div>
+
+      <div class="d-flex justify-content-center gap-2 mt-3">
+        <button id="paidBtn" class="btn btn-primary" onclick="confirmPaid()">I have paid</button>
+        <button id="regenerateBtn" class="btn btn-outline-secondary" style="display:none;" onclick="regenerateQR()">Regenerate QR</button>
+      </div>
+    </div>
+
+    <!-- Success / Status -->
+    <div id="statusMsg" class="text-center mt-4" style="display:none;">
+      <div id="successMsg" class="text-success fw-bold" style="display:none;">🎉 Payment Successful! Thank you for enrolling.</div>
+      <div id="cancelMsg" class="text-warning fw-bold" style="display:none;">⚠️ Payment not completed.</div>
+    </div>
+
+    <div class="text-center mt-3">
+      <a href="{{ url_for('index') }}" class="btn btn-secondary">Back to Home</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  const paymentMethodSelect = document.getElementById('paymentMethod');
+  const cardFields = document.getElementById('cardFields');
+  const qrContainer = document.getElementById('qrContainer');
+  const timerText = document.getElementById('timerText');
+  const expiredText = document.getElementById('expiredText');
+  const paidBtn = document.getElementById('paidBtn');
+  const regenerateBtn = document.getElementById('regenerateBtn');
+  const statusMsg = document.getElementById('statusMsg');
+  const successMsg = document.getElementById('successMsg');
+  const cancelMsg = document.getElementById('cancelMsg');
+  const txnIdText = document.getElementById('txnIdText');
+
+  let countdownInterval = null;
+  let remainingSeconds = 0;
+  let currentTxnId = null;
+
+  // show/hide card fields based on selection
+  paymentMethodSelect.addEventListener('change', () => {
+    const method = paymentMethodSelect.value;
+    cardFields.style.display = (method === 'card') ? 'block' : 'none';
+    // hide any previous QR/status when switching
+    hideQR();
+    hideStatus();
+  });
+
+  function handlePayNow(event) {
+    event.preventDefault();
+    hideStatus();
+
+    const method = paymentMethodSelect.value;
+    if (!method) {
+      alert('Please select a payment method.');
+      return false;
+    }
+
+    if (method === 'upi') {
+      // generate a fake txn id and display QR section with timer
+      currentTxnId = 'TXN' + Date.now().toString().slice(-6);
+      txnIdText.innerText = `Transaction ID: ${currentTxnId} • Amount: ₹{{ plan.price }}`;
+      showQRWithTimer(3 * 60); // 3 minutes
+    } else if (method === 'card' || method === 'netbanking') {
+      // simulate immediate (fake) card/netbanking payment success
+      simulateImmediateSuccess();
+    } else if (method === 'cash') {
+      // simulate request to pay at gym
+      cancelMsg.style.display = 'block';
+      cancelMsg.innerText = 'Please pay at the gym reception. Your enrollment request has been recorded.';
+      statusMsg.style.display = 'block';
+    }
+
+    return false;
+  }
+
+  function showQRWithTimer(seconds) {
+    // reset any old timer
+    clearInterval(countdownInterval);
+    remainingSeconds = seconds;
+    updateTimerDisplay();
+    qrContainer.style.display = 'block';
+    expiredText.style.display = 'none';
+    paidBtn.style.display = 'inline-block';
+    regenerateBtn.style.display = 'none';
+    successMsg.style.display = 'none';
+    cancelMsg.style.display = 'none';
+    statusMsg.style.display = 'none';
+
+    // start countdown
+    countdownInterval = setInterval(() => {
+      remainingSeconds--;
+      updateTimerDisplay();
+      if (remainingSeconds <= 0) {
+        clearInterval(countdownInterval);
+        onQRExpired();
+      }
+    }, 1000);
+  }
+
+  function updateTimerDisplay() {
+    const mm = Math.floor(remainingSeconds / 60).toString().padStart(2,'0');
+    const ss = (remainingSeconds % 60).toString().padStart(2,'0');
+    timerText.textContent = `${mm}:${ss}`;
+  }
+
+  function onQRExpired() {
+    timerText.style.display = 'none';
+    expiredText.style.display = 'block';
+    paidBtn.style.display = 'none';
+    regenerateBtn.style.display = 'inline-block';
+  }
+
+  function regenerateQR() {
+    // regenerate txnid and restart timer
+    currentTxnId = 'TXN' + Date.now().toString().slice(-6);
+    txnIdText.innerText = `Transaction ID: ${currentTxnId} • Amount: ₹{{ plan.price }}`;
+    timerText.style.display = 'block';
+    showQRWithTimer(3 * 60);
+  }
+
+  function confirmPaid() {
+    // simulate server verification - just show success
+    clearInterval(countdownInterval);
+    qrContainer.style.display = 'none';
+    successMsg.style.display = 'block';
+    cancelMsg.style.display = 'none';
+    statusMsg.style.display = 'block';
+
+    // optionally: you could POST to your server here with currentTxnId to persist enrollment
+    // e.g. fetch('/confirm-payment', { method: 'POST', body: JSON.stringify({ txn: currentTxnId }) })
+  }
+
+  function simulateImmediateSuccess() {
+    // small UX: disable form and show loader, then success
+    const payNowBtn = document.getElementById('payNowBtn');
+    payNowBtn.disabled = true;
+    payNowBtn.innerText = 'Processing...';
+    setTimeout(() => {
+      payNowBtn.disabled = false;
+      payNowBtn.innerText = 'Pay Now';
+      successMsg.style.display = 'block';
+      statusMsg.style.display = 'block';
+    }, 1200);
+  }
+
+  function hideQR() {
+    qrContainer.style.display = 'none';
+    timerText.style.display = 'block';
+    expiredText.style.display = 'none';
+    clearInterval(countdownInterval);
+  }
+
+  function hideStatus() {
+    statusMsg.style.display = 'none';
+    successMsg.style.display = 'none';
+    cancelMsg.style.display = 'none';
+  }
+
+  // cleanup on page unload
+  window.addEventListener('beforeunload', () => clearInterval(countdownInterval));
+</script>
+
+{% endblock %}
