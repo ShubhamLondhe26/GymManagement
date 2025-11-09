@@ -1,5 +1,6 @@
 import pymysql
 from flask import Flask, render_template, request, redirect, url_for, flash, session
+from flask import g
 
 app = Flask(__name__)
 app.secret_key = "supersecretkey"
@@ -18,9 +19,12 @@ conn = pymysql.connect(
 # -----------------
 # Home Page
 # -----------------
-@app.route('/')
+@app.route("/")
 def index():
-    return render_template('index.html')
+    with conn.cursor() as cursor:
+        cursor.execute("SELECT * FROM plans")  # fetch all plans
+        plans = cursor.fetchall()
+    return render_template("index.html", plans=plans)
 
 
 # -----------------
@@ -302,17 +306,24 @@ def delete_trainer(id):
         conn.commit()
     flash("Trainer deleted successfully!", "success")
     return redirect(url_for("view_trainers"))
+
 @app.route("/plan/<string:plan_name>")
 def plan_detail(plan_name):
-    with conn.cursor() as cursor:
-        cursor.execute("SELECT * FROM plans WHERE LOWER(title) = %s", (plan_name.lower(),))
-        plan = cursor.fetchone()
+    # Hardcoded plans (matching what you have in index.html)
+    plans = {
+        "silver": {"title": "Silver", "price": "₹999/month", "desc": "Access to basic equipment & trainers", "img": "silverplan.png"},
+        "gold": {"title": "Gold", "price": "₹1499/month", "desc": "Includes advanced training & group sessions", "img": "glodplan.png"},
+        "platinum": {"title": "Platinum", "price": "₹1999/month", "desc": "All-access + Personal Trainer + Diet plan", "img": "platinumplan.png"},
+    }
 
+    plan = plans.get(plan_name.lower())
     if not plan:
         flash("Plan not found!", "danger")
         return redirect(url_for("index"))
 
     return render_template("plan_detail.html", plan=plan)
+
+
 
 
 # -----------------

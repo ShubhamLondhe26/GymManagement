@@ -21,9 +21,16 @@
 
 
 <!-- Plans Section -->
+<!-- Plans Section -->
 <section id="plans" class="py-5 bg-light">
   <div class="container">
     <h2 class="text-center mb-5 fw-bold" data-aos="fade-up">Membership Plans</h2>
+    <div class="row g-4">
+
+      <!-- Plans Section -->
+<section id="plans" class="py-5 bg-light">
+
+  <div class="container">
     <div class="row g-4">
 
       {% for plan in [
@@ -42,11 +49,20 @@
             <p class="text-muted">{{ plan.desc }}</p>
             <h5 class="text-warning fw-bold">{{ plan.price }}</h5>
             <a href="{{ url_for('plan_detail', plan_name=plan.title.lower()) }}" class="btn btn-dark mt-2">Join Now</a>
-
           </div>
         </div>
       </div>
       {% endfor %}
+
+    </div>
+  </div>
+</section>
+
+
+    </div>
+  </div>
+</section>
+
 
     </div>
   </div>
