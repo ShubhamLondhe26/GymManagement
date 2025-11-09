@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container my-5">
+    <h2 class="mb-4 text-center">Edit Plan</h2>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, msg in messages %}
+          <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+              {{ msg }}
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <div class="card shadow-sm p-4 mx-auto" style="max-width: 600px;">
+        <form method="POST">
+            <div class="mb-3">
+                <label for="title" class="form-label">Plan Title</label>
+                <input type="text" name="title" class="form-control" id="title" value="{{ plan.title }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="price" class="form-label">Price</label>
+                <input type="text" name="price" class="form-control" id="price" value="{{ plan.price }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea name="description" class="form-control" id="description" rows="3" required>{{ plan.description }}</textarea>
+            </div>
+            <div class="d-flex justify-content-between">
+                <a href="{{ url_for('view_plans') }}" class="btn btn-secondary">Back</a>
+                <button type="submit" class="btn btn-warning">Update Plan</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

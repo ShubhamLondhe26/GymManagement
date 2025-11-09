@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- Hero Section -->
+<!-- Hero Section -->
+<section class="hero position-relative d-flex align-items-center justify-content-center text-center" id="home" style="height:100vh;">
+    <!-- Background Image -->
+    <div class="hero-bg position-absolute w-100 h-100" 
+         style="background: url('{{ url_for('static', filename='images/Homepage.jpg') }}') center/cover no-repeat;">
+    </div>
+    <!-- Overlay -->
+    <div class="overlay position-absolute w-100 h-100" style="background: rgba(0,0,0,0.5);"></div>
+    <!-- Content -->
+    <div class="hero-content position-relative text-light" data-aos="zoom-in">
+        <h1 class="display-3 fw-bold">Train Hard. Stay Strong.</h1>
+        <p class="lead mt-3">Join PowerZone Gym – Where Fitness Meets Passion.</p>
+        <a href="#plans" class="btn btn-warning btn-lg mt-4">Explore Plans</a>
+    </div>
+</section>
+
+
+
+<!-- Plans Section -->
+<section id="plans" class="py-5 bg-light">
+  <div class="container">
+    <h2 class="text-center mb-5 fw-bold" data-aos="fade-up">Membership Plans</h2>
+    <div class="row g-4">
+
+      {% for plan in [
+        {'title': 'Silver', 'price': '₹999/month', 'desc': 'Access to basic equipment & trainers', 'img': 'silverplan.png'},
+        {'title': 'Gold', 'price': '₹1499/month', 'desc': 'Includes advanced training & group sessions', 'img': 'glodplan.png'},
+        {'title': 'Platinum', 'price': '₹1999/month', 'desc': 'All-access + Personal Trainer + Diet plan', 'img': 'platinumplan.png'}
+      ] %}
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 150 }}">
+        <div class="card border-0 shadow-lg plan-card h-100">
+          <!-- Plan Image -->
+          <img src="{{ url_for('static', filename='images/' ~ plan.img) }}" class="card-img-top" alt="{{ plan.title }}" style="height: 200px; object-fit: cover;">
+          
+          <!-- Plan Details -->
+          <div class="card-body text-center">
+            <h4 class="fw-bold">{{ plan.title }}</h4>
+            <p class="text-muted">{{ plan.desc }}</p>
+            <h5 class="text-warning fw-bold">{{ plan.price }}</h5>
+            <a href="{{ url_for('plan_detail', plan_name=plan.title.lower()) }}" class="btn btn-dark mt-2">Join Now</a>
+
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+
+    </div>
+  </div>
+</section>
+
+
+<!-- About Section -->
+<section id="about" class="py-5 text-light bg-dark">
+  <div class="container d-flex flex-lg-row flex-column align-items-center">
+    <div class="col-lg-6 mb-4 mb-lg-0" data-aos="fade-right">
+      <img src="{{ url_for('static', filename='images/aboutus.png') }}" class="img-fluid rounded shadow">
+    </div>
+    <div class="col-lg-6 ps-lg-5" data-aos="fade-left">
+      <h2 class="fw-bold mb-3">About PowerZone Gym</h2>
+      <p>We are a fitness community committed to helping you reach your goals through structured programs, expert trainers, and modern equipment.</p>
+      <ul>
+        <li>Certified Trainers</li>
+        <li>Personalized Diet Plans</li>
+        <li>Flexible Memberships</li>
+        <li>Motivating Environment</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact" class="py-5 bg-warning text-dark text-center">
+  <div class="container" data-aos="fade-up">
+    <h2 class="fw-bold">Contact Us</h2>
+    <p class="mb-4">Ready to start your fitness journey? Let’s talk!</p>
+    <p><b>Email:</b> info@powerzonegym.com | <b>Phone:</b> +91 98765 43210</p>
+  </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block content %}
+<!-- Ambient background -->
+<div class="bg-ambient"></div>
+
+<section class="container py-5" data-aos="fade-up">
+  <h1 class="text-center mb-5 display-4 fw-bold text-light">Welcome, {{ session.get('username', 'Member') }}</h1>
+
+  <!-- Member Info Cards -->
+  <div class="row g-4 mb-5">
+    <div class="col-md-4">
+      <div class="card plan-card text-center p-4 shadow-lg bg-dark text-light">
+        <h4 class="fw-bold">Current Plan</h4>
+        <p class="display-6 text-warning">{{ plan }}</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card plan-card text-center p-4 shadow-lg bg-dark text-light">
+        <h4 class="fw-bold">Diet</h4>
+        <p class="display-6 text-success">{{ diet }}</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card plan-card text-center p-4 shadow-lg bg-dark text-light">
+        <h4 class="fw-bold">Membership Status</h4>
+        <p class="display-6 text-info">{{ membership }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <h2 class="mb-4 text-light">Quick Actions</h2>
+  <div class="row g-4">
+    <div class="col-md-4">
+      <a href="#" class="btn btn-warning w-100 p-4 shadow-lg action-btn">View Workout Plan</a>
+    </div>
+    <div class="col-md-4">
+      <a href="#" class="btn btn-outline-light w-100 p-4 shadow-lg action-btn">Update Profile</a>
+    </div>
+    <div class="col-md-4">
+      <a href="#" class="btn btn-success w-100 p-4 shadow-lg action-btn">Track Progress</a>
+    </div>
+  </div>
+
+  <!-- Optional: Upcoming Events -->
+  <div class="mt-5">
+    <h3 class="text-light mb-3">Upcoming Gym Events</h3>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item bg-dark text-light">💪 Zumba Session - Saturday 10 AM</li>
+      <li class="list-group-item bg-dark text-light">🏋️ Powerlifting Workshop - Sunday 2 PM</li>
+      <li class="list-group-item bg-dark text-light">🥗 Nutrition Seminar - Next Friday 6 PM</li>
+    </ul>
+  </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+<div class="container mt-5">
+    <h2 class="text-center">{{ plan.title }}</h2>
+    <p class="text-center text-muted">{{ plan.description }}</p>
+    <h4 class="text-center">Price: ₹{{ plan.price }}</h4>
+
+    <div class="text-center mt-4">
+        <a href="{{ url_for('member_login') }}" class="btn btn-success">Join Now</a>
+        <a href="{{ url_for('index') }}" class="btn btn-secondary">Back</a>
+    </div>
+</div>
+
+<div class="container mt-5 pt-5">
+  <!-- Plan Hero -->
+  <div class="text-center mb-5" data-aos="fade-down">
+    <h1 class="display-4 fw-bold">{{ plan.title }} Plan</h1>
+    <h3 class="text-warning">{{ plan.price }}</h3>
+    <p class="lead text-muted">{{ plan.desc }}</p>
+  </div>
+
+  <div class="row g-4">
+    <!-- Plan Features -->
+    <div class="col-md-6" data-aos="fade-right">
+      <div class="card shadow-lg p-4 h-100">
+        <h4 class="fw-bold mb-3">Plan Details</h4>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">Access to state-of-the-art equipment</li>
+          <li class="list-group-item">Personalized workout plan</li>
+          <li class="list-group-item">Group sessions & classes</li>
+          <li class="list-group-item">Nutrition guidance & diet chart</li>
+          <li class="list-group-item">24/7 Gym access (for Gold & Platinum)</li>
+        </ul>
+        <hr>
+        <h5 class="fw-bold">Payment Options</h5>
+        <ul>
+          <li>UPI / Paytm / Google Pay</li>
+          <li>Credit Card / Debit Card</li>
+          <li>Cash at Gym Reception</li>
+        </ul>
+        <a href="#" class="btn btn-warning mt-3 w-100">Enroll Now</a>
+      </div>
+    </div>
+
+    <!-- Callback Form -->
+    <div class="col-md-6" data-aos="fade-left">
+      <div class="card shadow-lg p-4 h-100">
+        <h4 class="fw-bold mb-3">Request a Callback</h4>
+        <form method="POST">
+          <div class="mb-3">
+            <input type="text" name="name" class="form-control" placeholder="Your Name" required>
+          </div>
+          <div class="mb-3">
+            <input type="email" name="email" class="form-control" placeholder="Your Email" required>
+          </div>
+          <div class="mb-3">
+            <input type="text" name="phone" class="form-control" placeholder="Phone Number" required>
+          </div>
+          <div class="mb-3">
+            <textarea name="notes" class="form-control" placeholder="Tell us about your fitness goals..." rows="4"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary w-100 action-btn">Request Callback</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contact Info -->
+  <div class="text-center mt-5" data-aos="fade-up">
+    <h5>Contact Us</h5>
+    <p class="text-muted">Email: contact@powerzone.com | Phone: +91-9876543210 | Address: 123 Fitness St, Your City</p>
+  </div>
+</div>
+{% endblock %}

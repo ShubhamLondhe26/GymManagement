@@ -1,0 +1,270 @@
+/* ================================
+   GLOBAL STYLES
+================================ */
+body {
+  font-family: 'Montserrat', sans-serif;
+  scroll-behavior: smooth;
+  margin: 0;
+  padding: 0;
+  background-color: #0a0a0f;
+  color: #e6eef7;
+}
+
+a {
+  text-decoration: none;
+}
+
+/* ================================
+   HERO SECTION
+================================ */
+.hero {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: white;
+}
+
+.hero-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('/static/images/Homepage.jpg') center/cover no-repeat;
+  z-index: 1;
+  filter: brightness(0.65);
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 2;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 3;
+}
+
+.hero h1 {
+  font-family: 'Anton', sans-serif;
+  font-size: 4rem;
+  line-height: 1.2;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+.hero p {
+  font-size: 1.5rem;
+  margin-top: 1rem;
+  color: #f0f0f0;
+}
+
+.hero .btn {
+  font-weight: 600;
+  padding: 12px 30px;
+  border-radius: 50px;
+  transition: all 0.3s ease;
+}
+
+.hero .btn:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px rgba(255, 46, 99, 0.4);
+}
+
+@media (max-width: 768px) {
+  .hero h1 { font-size: 2.8rem; }
+  .hero p { font-size: 1.1rem; }
+}
+
+/* ================================
+   NAVBAR
+================================ */
+.navbar-brand {
+  font-family: 'Anton', sans-serif;
+  letter-spacing: 1px;
+  font-weight: bold;
+}
+
+.navbar-nav .nav-link {
+  font-weight: 500;
+  margin-left: 10px;
+  transition: 0.3s;
+}
+
+.navbar-nav .nav-link:hover {
+  color: #08fdd8;
+  text-shadow: 0 0 8px #08fdd8;
+}
+
+/* ================================
+   PLANS SECTION
+================================ */
+.plan-card {
+  border-radius: 14px;
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+  background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.plan-card img {
+  max-height: 200px;
+  object-fit: cover;
+}
+
+.plan-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(8,253,216,0.2);
+}
+
+.plan-card h4 {
+  font-weight: 700;
+  margin-top: 10px;
+}
+
+.plan-card p {
+  color: #98a0b3;
+}
+
+.plan-card h5 {
+  color: #ffcc00;
+  font-weight: bold;
+}
+
+/* ================================
+   LOGIN CARD
+================================ */
+.login-wrap {
+  width: 420px;
+  max-width: 92%;
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+  border-radius: 14px;
+  padding: 34px;
+  box-shadow: 0 10px 40px rgba(2,4,8,0.6);
+  border: 1px solid rgba(255,255,255,0.06);
+  backdrop-filter: blur(6px) saturate(120%);
+  color: #e6eef7;
+  position: relative;
+  overflow: hidden;
+}
+
+.login-wrap::before, .login-wrap::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  z-index: -1;
+  border-radius: 16px;
+  background: linear-gradient(90deg, rgba(255,46,99,0.12), rgba(8,253,216,0.12));
+  filter: blur(18px) saturate(120%);
+  opacity: 0.9;
+}
+
+.neon-input .form-control {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.04);
+  color: #e6eef7;
+  box-shadow: none;
+  padding: 18px 14px;
+  border-radius: 10px;
+  transition: border-color .25s ease, box-shadow .25s ease, transform .15s ease;
+}
+
+.neon-input .form-control:focus {
+  outline: none;
+  border-color: rgba(255,46,99,0.45);
+  box-shadow: 0 6px 30px rgba(255,46,99,0.06);
+  transform: translateY(-2px);
+}
+
+.action-btn {
+  background: linear-gradient(90deg, #ff2e63, #08fdd8);
+  border: none;
+  padding: 12px 18px;
+  border-radius: 10px;
+  font-weight: 600;
+  color: white;
+  box-shadow: 0 8px 30px rgba(8,253,216,0.06), 0 2px 10px rgba(255,46,99,0.06);
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+
+.action-btn:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 60px rgba(8,253,216,0.14);
+}
+
+/* ================================
+   AMBIENT BG & ANIMATIONS
+================================ */
+:root {
+  --accent1: #ff2e63;
+  --accent2: #08fdd8;
+  --card-radius: 14px;
+}
+
+.bg-ambient {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background: radial-gradient(800px circle at 10% 20%, rgba(255,46,99,0.08), transparent 10%),
+              radial-gradient(600px circle at 85% 80%, rgba(8,253,216,0.06), transparent 10%),
+              linear-gradient(180deg, rgba(5,6,10,1) 0%, rgba(12,13,20,1) 100%);
+}
+
+.bg-ambient::after {
+  content:"";
+  position:absolute;
+  inset:0;
+  background: linear-gradient(120deg, rgba(255,46,99,0.06), rgba(8,253,216,0.06), rgba(255,46,99,0.04));
+  filter: blur(40px);
+  animation: drift 10s linear infinite;
+  mix-blend-mode: screen;
+}
+
+@keyframes drift {
+  0% { transform: translateX(-10%) translateY(0) scale(1); }
+  50% { transform: translateX(10%) translateY(-5%) scale(1.04); }
+  100% { transform: translateX(-10%) translateY(0) scale(1); }
+}
+
+/* ================================
+   DASHBOARD STATS
+================================ */
+.stat-number {
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(8,253,216,0.2);
+}
+
+/* ================================
+   FOOTER
+================================ */
+footer {
+  padding: 20px 0;
+  background-color: #0a0a0f;
+  color: #98a0b3;
+  text-align: center;
+}
+
+/* ================================
+   RESPONSIVENESS
+================================ */
+@media (max-width: 768px) {
+  .hero h1 { font-size: 2.5rem; }
+  .hero p { font-size: 1.2rem; }
+}
+
+@media (max-width: 540px){
+  .login-wrap{ padding:22px; width:92%;}
+}
